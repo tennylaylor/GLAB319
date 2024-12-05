@@ -10,7 +10,7 @@ const app = express();
 
 import grades from "./routes/grades.mjs";
 import grades_agg from "./routes/grades_agg.mjs";
-
+//middleware
 app.use(express.json());
 
 app.get("/", (req, res) => {

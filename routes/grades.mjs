@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
 // Get a single grade entry
 router.get("/:id", async (req, res) => {
   let collection = await db.collection("grades");
-  let query = { _id: ObjectId(req.params.id) };
+  let query = { _id: new ObjectId(req.params.id) };
   let result = await collection.findOne(query);
 
   if (!result) res.send("Not found").status(404);
@@ -35,7 +35,7 @@ router.patch("/:id/add", async (req, res) => {
   let query = { _id: ObjectId(req.params.id) };
 
   let result = await collection.updateOne(query, {
-    $push: { scores: req.body }
+    $push: { scores: req.body },
   });
 
   if (!result) res.send("Not found").status(404);
@@ -48,7 +48,7 @@ router.patch("/:id/remove", async (req, res) => {
   let query = { _id: ObjectId(req.params.id) };
 
   let result = await collection.updateOne(query, {
-    $pull: { scores: req.body }
+    $pull: { scores: req.body },
   });
 
   if (!result) res.send("Not found").status(404);
@@ -74,7 +74,7 @@ router.get("/student/:id", async (req, res) => {
 router.get("/learner/:id", async (req, res) => {
   let collection = await db.collection("grades");
   let query = { learner_id: Number(req.params.id) };
-  
+
   // Check for class_id parameter
   if (req.query.class) query.class_id = Number(req.query.class);
 
@@ -115,7 +115,7 @@ router.patch("/class/:id", async (req, res) => {
   let query = { class_id: Number(req.params.id) };
 
   let result = await collection.updateMany(query, {
-    $set: { class_id: req.body.class_id }
+    $set: { class_id: req.body.class_id },
   });
 
   if (!result) res.send("Not found").status(404);
